@@ -18,14 +18,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
 
 public class Lienzo extends Canvas{
 	
-	Image imgBuffered;
-	Graphics2D g;
+	private Image imgBuffered;
+	private Graphics2D g;
+
 	
 	public Lienzo(int x,int y,int width,int height) {
 		this.setBounds(x, y, width, height);
@@ -42,17 +44,18 @@ public class Lienzo extends Canvas{
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				drawPoint(e.getX(), e.getY());
+				drawPoint(e.getX(), e.getY(),Color.blue);
 			}
 		});
+		
 	}
 	
 	public void paint(Graphics g) {
 		g.drawImage(imgBuffered, 0, 0, this);
 	}
 	
-	private void drawPoint(int x,int y) {
-		this.g.setColor(Color.blue); //Color con el que se pintará sobre el lienzo
+	public void drawPoint(int x,int y,Color color) {
+		this.g.setColor(color); //Color con el que se pintará sobre el lienzo
 		this.g.drawLine(x, y, x, y);
 		repaint();
 	}
