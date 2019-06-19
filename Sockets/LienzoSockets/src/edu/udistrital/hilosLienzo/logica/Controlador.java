@@ -1,5 +1,6 @@
-package com.sockets.chat.logica;
+package edu.udistrital.hilosLienzo.logica;
 
+import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 
@@ -15,14 +15,14 @@ public class Controlador implements Runnable{
 	
 	private ServerSocket serverSocket;
 	private String remoteHost = "192.168.0.104";
-	private int remotePort = 5046;
-	private int localPort = 5041;
+	private int remotePort = 5041;
+	private int localPort = 5046;
 	private DataInputStream flujo_entrada;
-	private JTextComponent target;
+	private Lienzo target;
 	private Thread hiloServer;
 
 	
-	public Controlador(JTextComponent target) {
+	public Controlador(Lienzo target) {
 		this.target = target;
 		//Parte servidor
 		habilitarServer();
@@ -39,7 +39,8 @@ public class Controlador implements Runnable{
 				Socket connectionSocket = this.serverSocket.accept();
 				this.flujo_entrada = new DataInputStream(connectionSocket.getInputStream());
 				String msj = this.flujo_entrada.readUTF();
-				this.target.setText(this.target.getText()+"\n"+msj);
+				String[] cadena = msj.split(" ");
+				this.target.drawPoint(Integer.parseInt(cadena[0]),Integer.parseInt(cadena[1]), Color.red);
 				System.out.println("Recibo");
 			}
 		} catch (IOException e) {
@@ -59,15 +60,14 @@ public class Controlador implements Runnable{
 		}
 	}
 
-	public void enviar(String msj) {
+	public void enviar(int x, int y) {
 		try {
 			Socket miSocket = new Socket(this.remoteHost,this.remotePort);
 			DataOutputStream dos = new DataOutputStream(miSocket.getOutputStream());
-			dos.writeUTF(msj);
+			dos.writeUTF(String.valueOf(x)+" "+String.valueOf(y));
 			miSocket.close();
 		} catch (IOException e) {
 			System.out.println("Error al enviar mensaje: "+e.getMessage());
-			JOptionPane.showMessageDialog(null,"Host remoto no conectado");
 		}
 	}
 
@@ -75,5 +75,4 @@ public class Controlador implements Runnable{
 	public void run() {
 		escuchar();
 	}
-
 }

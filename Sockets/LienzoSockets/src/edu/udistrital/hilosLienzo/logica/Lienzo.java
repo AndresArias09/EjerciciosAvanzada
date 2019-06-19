@@ -27,9 +27,10 @@ public class Lienzo extends Canvas{
 	
 	private Image imgBuffered;
 	private Graphics2D g;
-
+	private Controlador cnt;
 	
 	public Lienzo(int x,int y,int width,int height) {
+		cnt = new Controlador(this);
 		this.setBounds(x, y, width, height);
 		imgBuffered = new BufferedImage(width,height,BufferedImage.TRANSLUCENT);
 		this.setBackground(Color.white); //Color de fondo del lienzo
@@ -45,6 +46,7 @@ public class Lienzo extends Canvas{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				drawPoint(e.getX(), e.getY(),Color.blue);
+				cnt.enviar(e.getX(), e.getY());
 			}
 		});
 		
