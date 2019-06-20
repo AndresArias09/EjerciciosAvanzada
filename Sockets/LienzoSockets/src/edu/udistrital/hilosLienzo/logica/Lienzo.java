@@ -5,22 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
 
 
 public class Lienzo extends Canvas{
@@ -46,7 +34,16 @@ public class Lienzo extends Canvas{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				drawPoint(e.getX(), e.getY(),Color.blue);
-				cnt.enviar(e.getX(), e.getY());
+				Thread hilo = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						cnt.enviar(e.getX(), e.getY());
+
+					}
+				});
+			hilo.start();
+				
 			}
 		});
 		

@@ -6,17 +6,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-
-import javax.swing.text.JTextComponent;
-
 
 public class Controlador implements Runnable{
 	
 	private ServerSocket serverSocket;
 	private String remoteHost = "192.168.0.104";
-	private int remotePort = 5041;
-	private int localPort = 5046;
+	private int remotePort = 5046;
+	private int localPort = 5041;
 	private DataInputStream flujo_entrada;
 	private Lienzo target;
 	private Thread hiloServer;
